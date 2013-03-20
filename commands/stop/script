@@ -10,7 +10,7 @@
 # and show its options.
 # 
 #/ command: ircbot:stop: "stop the logger"
-#/ usage: rerun ircbot:stop [ --dir <>] 
+#/ usage: rerun ircbot:stop [ --dir <>]  --channel <> 
 
 # Load common functions
 # ---------------------
@@ -47,7 +47,7 @@ set -o nounset -o pipefail
 # declared by `rerun` or by the option parser function.
 
 #/ rerun-variables: RERUN, RERUN_VERSION, RERUN_MODULES, RERUN_MODULE_DIR
-#/ option-variables: DIR
+#/ option-variables: DIR CHANNEL
 
 # The `rerun_options_parse` function processes the command line
 # arguments. Each accepted command line flag results in setting 
@@ -63,13 +63,23 @@ rerun_options_parse "$@"
 # Put the command implementation here.
 # - - -
 
+kill_procs() {
+    running=()
+    for p in $@
+    do
+        ps -p $p >/dev/null && running=( ${running[*]:-} $p )
+    done
+    command kill ${running[*]}
+}
+
 : ${DIR:=$(pwd)}
 
-if rerun ircbot:status --dir $DIR >/dev/null
+pids=$(ircbot_pids $CHANNEL)
+
+if [[ -n "$pids" ]]
 then
-    pids=$(cat $DIR/{connect,digest}.pid)
-    kill -- $pids
-    rm $DIR/{connect,digest}.pid
+    # Kill processes by name.
+    kill_procs $pids
 fi
 
 

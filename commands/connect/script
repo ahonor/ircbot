@@ -63,9 +63,9 @@ rerun_options_parse "$@"
 # Put the command implementation here.
 # - - -
 
-: ${LOG:=/tmp/irclog.raw.txt}
+: ${LOG:=/tmp/ircbot.raw.txt}
 
-config=${TMP:-/tmp}/irclog_connect.$$
+config=${TMP:-/tmp}/ircbot_connect.$$
  
 config="${config}_${CHANNEL}"
  
@@ -74,6 +74,7 @@ echo "USER $NICK +i \* :$0" >> $config
 echo "JOIN #$CHANNEL" >> $config
  
 trap "rm -f $config;exit 0" INT TERM EXIT
+
 
 
 tail -f $config | 

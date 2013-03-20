@@ -3,4 +3,4 @@
 # Mon Mar 18 14:28:59 PDT 2013
 NAME=stop
 DESCRIPTION="stop the logger"
-OPTIONS="dir"
+OPTIONS="dir channel"

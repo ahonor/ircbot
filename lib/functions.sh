@@ -24,5 +24,15 @@ fi
 # Your functions declared here.
 # - - -
 
+ircbot_pids() {
+    CHANNEL=$1
+    ps auxwww|grep "ircbot.*$CHANNEL"|
+    grep -v grep                     |
+    egrep 'connect|digest|post'      |
+    awk '{print $2}'                 |
+    sort -nr
+    return 0
+}
+
 
 

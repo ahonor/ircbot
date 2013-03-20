@@ -14,6 +14,10 @@ rerun irclog:start --channel rundeck --nick irclog$$ --dir ./irclog --repo $REPO
 
 rerun irclog:status --dir ./irclog
 
+## Stop the logging bot
+
+rerun irclog:stop --dir ./irclog
+
 ## Connect to IRC channel and digest messages
 
     rerun irclog:connect -channel rundeck --nick irclog$$       |

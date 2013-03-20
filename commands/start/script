@@ -72,25 +72,15 @@ fi
 cd $DIR
 
 ## Connect to IRC channel and digest the messages.
-if [[ ! -p /tmp/ircbot:connect.pipe ]]
-then  mkfifo /tmp/ircbot:connect.pipe
-fi
+(
+rerun ircbot:connect --channel $CHANNEL --server $SERVER --nick ircbot_$$      |
+rerun ircbot:digest  --channel $CHANNEL --format ghpost --dir $DIR/logs/_posts |
+rerun ircbot:push    --dir $DIR 
+) 0<&- &>/dev/null &
+pid=$!
+echo $pid > $DIR/start.pid
 
-rerun ircbot:connect --server $SERVER --channel $CHANNEL --nick ircbot_$$ > /tmp/ircbot:connect.pipe &
-
-connect_pid=$!
-connect_status=$?
-echo $connect_pid > $DIR/connect.pid
-
-rerun ircbot:digest  --channel $CHANNEL --format ghpost --dir $DIR/logs/_posts </tmp/ircbot:connect.pipe &
-digest_pid=$!
-echo $digest_pid > $DIR/digest.pid
-
-#rerun ircbot:push    --dir $DIR &
-#push_pid=$!
-#push_status=$?
-#echo $push_pid > $DIR/push.pid
 
 # Done. Exit with last command exit status.
-exit $connect_status
+exit $?
 

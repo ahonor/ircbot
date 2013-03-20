@@ -10,7 +10,7 @@
 # and show its options.
 # 
 #/ command: ircbot:status: "check status"
-#/ usage: rerun ircbot:status [ --dir <>] 
+#/ usage: rerun ircbot:status [ --dir <>]  --channel <> 
 
 # Load common functions
 # ---------------------
@@ -47,7 +47,7 @@ set -o nounset -o pipefail
 # declared by `rerun` or by the option parser function.
 
 #/ rerun-variables: RERUN, RERUN_VERSION, RERUN_MODULES, RERUN_MODULE_DIR
-#/ option-variables: DIR
+#/ option-variables: DIR CHANNEL
 
 # The `rerun_options_parse` function processes the command line
 # arguments. Each accepted command line flag results in setting 
@@ -64,21 +64,16 @@ rerun_options_parse "$@"
 # - - -
 : ${DIR:=$(pwd)}
 
-if [[ -r $DIR/connect.pid ]]
+pids=( $(ircbot_pids $CHANNEL) )
+
+
+if [ ${#pids[*]} -lt 1 ]
 then
-    pid=$(cat $DIR/connect.pid)
-    
-    if ! ps -p $pid >/dev/null
-    then
-        echo "DOWN"
-        exit 1
-    else
-        echo "RUNNING (pid=$pid)"
-        exit 0
-    fi
-else
-    echo "DOWN (connect.pid file not found)"
+    echo "DOWN"
     exit 1
+else
+    echo "RUNNING (pids: ${pids[*]:-})"
+    exit 0
 fi
 
 # Done. Exit with last command exit status.
