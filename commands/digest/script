@@ -81,6 +81,7 @@ print_header() {
     ghpost() {
         cat <<EOF
 ---
+layout: irclog
 server: $server
 channel: $channel
 category: [irclog]
@@ -94,11 +95,17 @@ EOF
     ghpost $server $channel $date
 }
 
+
+escape_msg() {
+    echo $* |
+    sed -e 's,\[,\\[,g' -e 's,\],\\],g'    
+}
+
 print_msg() {
-    time=$1 user=$2 
+    time=$1 nick=$2 
     shift; shift; 
     markdown() {
-        printf -- "- %s %s\n" $time "$*"
+        printf -- "#### %s %s\n %s\n" "$time" "$nick" "$(escape_msg $*)"
     }
 
     markdown $*

@@ -75,8 +75,6 @@ echo "JOIN #$CHANNEL" >> $config
  
 trap "rm -f $config;exit 0" INT TERM EXIT
 
-
-
 tail -f $config | 
 nc $SERVER 6667 | 
 tee -a $LOG     | 
@@ -85,13 +83,7 @@ do
     case "$LINE" in
         PING*) echo "PONG${LINE#PING}" >> $config;;
         *PRIVMSG*) 
-            set -- $LINE
-            [[ "$1" =~ ^:(.*)\!~(.*) ]] && user=${BASH_REMATCH[1]} || user=unknown
-            type=$2
-            channel=$3
-            shift; shift; shift;
-            mesg=$@
-            printf "[%s] %s\n" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$LINE" 
+            printf "[%s] %s\n" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" "$LINE"
             ;;
         NOTICE) ;;
         QUIT) ;;
