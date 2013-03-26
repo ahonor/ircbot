@@ -68,9 +68,9 @@ rerun_options_parse "$@"
 if [[ ! -d $DIR ]]
 then
     git clone $REPO $DIR
+    cd $DIR
     git checkout gh-pages
 fi
-cd $DIR
 
 # Connect to IRC channel and digest the messages.
 # Act like a daemon and close stdin and redirect stdout.

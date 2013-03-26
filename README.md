@@ -14,11 +14,11 @@
 
 ## Connect to IRC channel and digest messages
 
-    rerun irclog:connect -channel my_channel --nick irclog$$       |
+    rerun irclog:connect -channel my_channel --nick irclog$$   |
     rerun irclog:digest --format ghpost --dir ./irclog/_posts  &
 
     
-## Check for changes and commit the posts
+## Push any pending posts
 
     rerun irclog:push --dir ./irclog
    
