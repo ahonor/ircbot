@@ -63,7 +63,7 @@ rerun_options_parse "$@"
 # Put the command implementation here.
 # - - -
 
-: ${LOG:=/tmp/ircbot.raw.txt}
+: ${LOG:=/tmp/ircbot.log}
 
 config=${TMP:-/tmp}/ircbot_connect.$$
  
@@ -99,7 +99,7 @@ do
         JOIN) ;;
         NICK) ;;
         *) 
-            echo >&2 "ignoring line: $LINE"
+            #echo >&2 "DEBUG: ignoring line: $LINE"
             continue; #ignore other kinds of messages.
     esac
 

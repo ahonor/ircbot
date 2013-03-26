@@ -71,7 +71,8 @@ then
 fi
 cd $DIR
 
-## Connect to IRC channel and digest the messages.
+# Connect to IRC channel and digest the messages.
+# Act like a daemon and close stdin and redirect stdout.
 (
 rerun ircbot:connect --channel $CHANNEL --server $SERVER --nick ircbot_$$      |
 rerun ircbot:digest  --channel $CHANNEL --format ghpost --dir $DIR/logs/_posts |
