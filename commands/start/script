@@ -68,14 +68,15 @@ rerun_options_parse "$@"
 if [[ ! -d $DIR ]]
 then
     git clone $REPO $DIR
+    git checkout gh-pages
 fi
 cd $DIR
 
 # Connect to IRC channel and digest the messages.
 # Act like a daemon and close stdin and redirect stdout.
 (
-rerun ircbot:connect --channel $CHANNEL --server $SERVER --nick ircbot_$$      |
-rerun ircbot:digest  --channel $CHANNEL --format ghpost --dir $DIR/logs/_posts |
+rerun ircbot:connect --channel $CHANNEL --server $SERVER --nick ircbot_$$ |
+rerun ircbot:digest  --channel $CHANNEL --format ghpost --dir $DIR/_posts |
 rerun ircbot:push    --dir $DIR 
 ) 0<&- &>/dev/null &
 pid=$!
