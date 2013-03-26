@@ -84,7 +84,6 @@ print_header() {
 layout: irclog
 server: $server
 channel: $channel
-category: [irclog]
 date: $date
 ---
 
@@ -137,7 +136,7 @@ do
         ghpost) 
             LOG=${DIR}/$date-$CHANNEL.md
             [[ ! -f $LOG ]] && print_header $SERVER $CHANNEL $date > $LOG
-            print_msg $time $user $* >> $LOG
+            print_msg $time $user ${message/:/} >> $LOG
             ;; 
     esac
 

@@ -81,7 +81,7 @@ do
     then
         :; # ignore errors from commit.
     fi
-    git push
+    git push origin gh-pages
     sleep ${INTERVAL:=60}
 done
 # Done. Exit with last command exit status.
