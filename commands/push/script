@@ -76,15 +76,12 @@ do
         file=$(echo "$line"| cut -f2 -d' ')
         [[ "$file" =~ pid\|irclog ]] && continue
         git add "$file"
+        git commit -m "$MESSAGE"
     done
-    if ! git commit -m "$MESSAGE"
-    then
-        :; # ignore errors from commit.
-    fi
     if ! git push origin gh-pages
-    then
-        :; # ignore errors from push.
+    then  :; # ignore errors from push.
     fi
+
     sleep ${INTERVAL:=60}
 done
 # Done. Exit with last command exit status.
