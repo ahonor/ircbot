@@ -84,7 +84,6 @@ print_header() {
 layout: irclog
 server: $server
 channel: $channel
-date: $date
 ---
 
 EOF
@@ -126,7 +125,7 @@ do
     }
     time=unknown date=unknown
     [[ "$1" =~ ^\[([0-9-]+)T(.*)Z\] ]] && { date=${BASH_REMATCH[1]};  time=${BASH_REMATCH[2]}; } 
-    [[ "$2" =~ ^:(.*)\!~(.*)        ]] && user=${BASH_REMATCH[1]} || user=unknown
+    [[ "$2" =~ ^:(.*)\!~(.*)        ]] && user=${BASH_REMATCH[1]} || user=""
     type=$3
     channel=$4
     shift; shift; shift; shift;
