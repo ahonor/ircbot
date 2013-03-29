@@ -125,7 +125,7 @@ do
     }
     time=unknown date=unknown
     [[ "$1" =~ ^\[([0-9-]+)T(.*)Z\] ]] && { date=${BASH_REMATCH[1]};  time=${BASH_REMATCH[2]}; } 
-    [[ "$2" =~ ^:(.*)\!~(.*)        ]] && user=${BASH_REMATCH[1]} || user=""
+    [[ "$2" =~ ^:(.*)!([^ ]+)        ]] && nick=${BASH_REMATCH[1]} || nick=""
     type=$3
     channel=$4
     shift; shift; shift; shift;
@@ -135,7 +135,7 @@ do
         ghpost) 
             LOG=${DIR}/$date-$CHANNEL.md
             [[ ! -f $LOG ]] && print_header $SERVER $CHANNEL $date > $LOG
-            print_msg $time $user ${message/:/} >> $LOG
+            print_msg $time $nick ${message/:/} >> $LOG
             ;; 
     esac
 

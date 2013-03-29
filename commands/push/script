@@ -62,6 +62,14 @@ rerun_options_parse "$@"
 # - - -
 # Put the command implementation here.
 # - - -
+
+function list_changes {
+    git status --porcelain | 
+    if ! egrep '^\??|A'
+    then :; # ignore status errors.
+    fi
+}
+
 MESSAGE="[ircbot:push] automatic update."
 
 cd $DIR
@@ -69,12 +77,11 @@ git status
 
 while true
 do
-    git status --porcelain   | 
-    egrep '^\??|A'           | 
+    list_changes | 
     while read line 
     do
         file=$(echo "$line"| cut -f2 -d' ')
-        [[ "$file" =~ pid\|irclog ]] && continue
+        [[ "$file" =~ start.pid ]] && continue
         git add "$file"
         git commit -m "$MESSAGE"
     done
